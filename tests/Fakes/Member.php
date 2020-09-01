@@ -8,9 +8,4 @@ use PaulhenriL\LaravelDynamicAttributes\HasDynamicAttributes;
 class Member extends Model
 {
     use HasDynamicAttributes;
-
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-    }
 }
