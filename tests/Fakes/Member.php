@@ -12,15 +12,5 @@ class Member extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-
-        $this->registerDynamicAttribute(
-            'my_dynamic_attribute',
-            function ($key) {
-                return "Trying to get {$key}";
-            },
-            function ($key, $value) {
-                echo "Setting {$key}";
-            }
-        );
     }
 }
