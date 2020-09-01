@@ -1,0 +1,34 @@
+{
+    "name": "phl/laravel-dynamic-attributes",
+    "description": "Single table inheritance with eloquent",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "paulhenri-l",
+            "email": "25308170+paulhenri-l@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2.5",
+        "illuminate/database": "^7.0",
+        "illuminate/events": "^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.3",
+        "fzaninotto/faker": "^1.8",
+        "symfony/finder": "^4.1",
+        "symfony/var-dumper": "^4.1",
+        "illuminate/pagination": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "PaulhenriL\\LaravelDynamicAttributes\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PaulhenriL\\LaravelDynamicAttributes\\Tests\\": "tests/"
+        }
+    }
+}
