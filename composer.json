@@ -1,6 +1,6 @@
 {
     "name": "phl/laravel-dynamic-attributes",
-    "description": "Single table inheritance with eloquent",
+    "description": "Dynamically add attributes to your eloquent models",
     "type": "library",
     "license": "MIT",
     "authors": [
