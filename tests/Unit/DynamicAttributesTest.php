@@ -64,38 +64,6 @@ class DynamicAttributesTest extends TestCase
         $this->assertEquals('hello', $da->get);
         $this->assertEquals(['hello' => 'world'], $da->set);
     }
-
-    public function test_wildcard_attribute()
-    {
-        $member = new Member();
-        $wildcardAttribute = new WildcardAttribute();
-        $member->registerDynamicAttributeClass('prefix_.*', $wildcardAttribute);
-        $member->prefix_hello = 'world';
-        $member->prefix_foo = 'bar';
-        $member->prefix_test = 'value';
-        $member->not_prefix_sorry = 'not there';
-
-        $this->assertEquals([
-            'prefix_hello' => 'world',
-            'prefix_foo' => 'bar',
-            'prefix_test' => 'value',
-        ], $wildcardAttribute->data);
-    }
-}
-
-class WildcardAttribute implements DynamicAttribute
-{
-    public $data = [];
-
-    public function get(string $key)
-    {
-        return $data[$key] ?? null;
-    }
-
-    public function set(string $key, $value): void
-    {
-        $this->data[$key] = $value;
-    }
 }
 
 class FakeDaClass implements DynamicAttribute

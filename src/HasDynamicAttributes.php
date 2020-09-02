@@ -14,14 +14,6 @@ trait HasDynamicAttributes
     protected $dynamicAttributes = [];
 
     /**
-     * Keep a cached array of previously matched attributes. So that we don't
-     * run a preg match on every get and set call.
-     *
-     * @var ?string[]
-     */
-    protected $previousMatches = [];
-
-    /**
      * Register a dynamic attribute.
      *
      * @param string $key
@@ -53,13 +45,13 @@ trait HasDynamicAttributes
      * @param string $key
      * @return mixed
      */
-    public function __get($key)
+    public function getAttribute($key)
     {
-        if ($daKey = $this->getDynamicAttributeKey($key)) {
-            return $this->dynamicAttributes[$daKey]->get($key);
+        if ($da = $this->getDynamicAttributeClass($key)) {
+            return $da->get($key);
         }
 
-        return parent::__get($key);
+        return parent::getAttribute($key);
     }
 
     /**
@@ -67,43 +59,27 @@ trait HasDynamicAttributes
      *
      * @param string $key
      * @param mixed $value
-     * @return void
+     * @return mixed
      */
-    public function __set($key, $value)
+    public function setAttribute($key, $value)
     {
-        if ($daKey = $this->getDynamicAttributeKey($key)) {
-            $this->dynamicAttributes[$daKey]->set($key, $value);
-            return;
+        if ($da = $this->getDynamicAttributeClass($key)) {
+            $da->set($key, $value);
+
+            return $this;
         }
 
-        parent::__set($key, $value);
+        return parent::setAttribute($key, $value);
     }
 
     /**
-     * Flush the cache of previously matched dynamic attribute keys.
+     * Return the dynamic attribute class.
+     *
+     * @param string $key
+     * @return DynamicAttribute|null
      */
-    public function flushDynamicAttributeKeyCache()
+    protected function getDynamicAttributeClass(string $key): ?DynamicAttribute
     {
-        $this->previousMatches = [];
-    }
-
-    /**
-     * Check if the given key matches with a dynamic attribute.
-     */
-    protected function getDynamicAttributeKey(string $key): ?string
-    {
-        $cache = $this->previousMatches;
-
-        if (isset($cache[$key])) {
-            return $cache[$key];
-        }
-
-        $daKey = array_filter(array_keys($this->dynamicAttributes), function ($da) use ($key) {
-            return preg_match('/^' . $da . '$/', $key);
-        });
-
-        $result = $cache[$key] = array_shift($daKey);
-
-        return $result;
+        return $this->dynamicAttributes[$key] ?? null;
     }
 }
